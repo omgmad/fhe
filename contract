@@ -1,0 +1,18 @@
+import { ethers } from "ethers";
+import FHETimelockABI from './contracts/FHETimelock.json';
+
+const contractAddress = "YOUR_CONTRACT_ADDRESS";
+
+export async function revealSecret(signer) {
+  const contract = new ethers.Contract(contractAddress, FHETimelockABI, signer);
+  const encrypted = await contract.revealSecret();
+  // FHE decrypt
+  const secret = FHE.decrypt(encrypted, YOUR_PRIVATE_KEY);
+  return secret;
+}
+
+export async function createSecret(signer, plaintext) {
+  const encrypted = FHE.encrypt(plaintext, YOUR_PUBLIC_KEY);
+  const contract = new ethers.Contract(contractAddress, FHETimelockABI, signer);
+  await contract.updateSecret(encrypted);
+}
