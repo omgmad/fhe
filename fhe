@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+import "fhevm/contracts/FHE.sol";
+
+contract FHETimelock {
+    euint256 private encryptedSecret;
+    uint256 public unlockTime;
+    address public owner;
+
+    event SecretUnlocked(euint256 secret);
+
+    constructor(euint256 _encryptedSecret, uint256 _lockDuration) {
+        encryptedSecret = _encryptedSecret;
+        unlockTime = block.timestamp + _lockDuration;
+        owner = msg.sender;
+        FHE.allowThis(encryptedSecret);
+    }
+
+    function revealSecret() public view returns (euint256) {
+        require(block.timestamp >= unlockTime, "Secret is still locked!");
+        return encryptedSecret;
+    }
+
+    function updateSecret(euint256 _newSecret) public {
+        require(msg.sender == owner, "Only owner can update secret");
+        encryptedSecret = _newSecret;
+        unlockTime = block.timestamp + 14 days;
+        FHE.allowThis(encryptedSecret);
+    }
+
+    function revealSecretWithEvent() public {
+        require(block.timestamp >= unlockTime, "Secret is still locked!");
+        emit SecretUnlocked(encryptedSecret);
+    }
+}
