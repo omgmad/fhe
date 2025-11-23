@@ -1,0 +1,9 @@
+import { ethers } from "ethers";
+
+export async function connectWallet() {
+  if (!window.ethereum) return alert("MetaMask not found!");
+  await window.ethereum.request({ method: "eth_requestAccounts" });
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+  return signer;
+}
