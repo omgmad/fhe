@@ -1,0 +1,7 @@
+const [timeLeft, setTimeLeft] = React.useState(unlockTime - Date.now()/1000);
+React.useEffect(() => {
+  const timer = setInterval(() => {
+    setTimeLeft(unlockTime - Date.now()/1000);
+  }, 1000);
+  return () => clearInterval(timer);
+}, []);
