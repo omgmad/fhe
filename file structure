@@ -1,0 +1,18 @@
+fhe-timelock-demo/
+│
+├─ package.json
+├─ README.md
+├─ /src
+│   ├─ index.js
+│   ├─ App.js
+│   ├─ /components
+│   │   ├─ ConnectWallet.js
+│   │   ├─ CreateSecret.js
+│   │   ├─ UnlockStatus.js
+│   │   └─ RevealSecret.js
+│   ├─ /contracts
+│   │   └─ FHETimelock.json   // ABI from deployed contract
+│   └─ /utils
+│       └─ fhe.js             // Encrypt/Decrypt helper using FHE SDK
+└─ /public
+    └─ index.html
